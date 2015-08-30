@@ -174,7 +174,7 @@ namespace Volante.Impl
             //TODO: this seems like the right code, but changing it
             //breaks a lot of code in Btree (it uses ILink internally
             //for its implementation). Maybe they rely on having the
-            //original array 
+            //original array
             //T[] arrUsed = new T[used];
             //Array.Copy(arr, arrUsed, used);
             //return arrUsed;
@@ -213,18 +213,19 @@ namespace Volante.Impl
             for (int i = 0; i < used; i++)
             {
                 IPersistent o = arr[i];
-                if (o == obj)
+                if (o == po)
                     return i;
-                // TODO: compare by oid if o is PersistentStub ?
             }
             return -1;
         }
 
         public virtual int IndexOf(T obj)
         {
+            if (obj == null)
+                return -1;
             int oid = obj.Oid;
             int idx;
-            if (obj != null && oid != 0)
+            if (oid != 0)
                 idx = IndexOfByOid(oid);
             else
                 idx = IndexOfByObj(obj);
