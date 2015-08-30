@@ -130,17 +130,25 @@ namespace Volante
                 }
             }
             db.Commit();
-            var r2 = new RecordFullWithProperty(firstKey);
+            var rFullNew = new RecordFullWithProperty(firstKey);
+            var rAutoNew = new RecordAuto();
+
             // Contains for unique index
             Tests.Assert(root.idxLong.Contains(rfFirst));
-            Tests.Assert(!root.idxLong.Contains(r2));
+            Tests.Assert(!root.idxLong.Contains(rFullNew));
+            
+            Tests.Assert(root.idxLongAuto.Contains(raFirst));
+            Tests.Assert(!root.idxLongAuto.Contains(rAutoNew));
 
             // Contains() for non-unique index
             Tests.Assert(root.idxInt.Contains(rfFirst));
-            Tests.Assert(!root.idxInt.Contains(r2));
+            Tests.Assert(!root.idxInt.Contains(rFullNew));
 
-            Tests.Assert(false == root.idxLongProp.Put(r2));
-            root.idxLongProp.Set(r2);
+            Tests.Assert(root.idxIntAuto.Contains(raFirst));
+            Tests.Assert(!root.idxIntAuto.Contains(rAutoNew));
+
+            Tests.Assert(false == root.idxLongProp.Put(rFullNew));
+            root.idxLongProp.Set(rFullNew);
 
             Tests.AssertDatabaseException(() =>
                 { root.idxString.Append(rfFirst); },
@@ -181,10 +189,10 @@ namespace Volante
             db.Commit();
             var e = root.idxLong.GetEnumerator();
             Tests.Assert(e.MoveNext());
-            r2 = e.Current;
-            Tests.Assert(root.idxLongProp.Remove(r2));
+            rFullNew = e.Current;
+            Tests.Assert(root.idxLongProp.Remove(rFullNew));
             db.Commit();
-            Tests.Assert(!root.idxLongProp.Remove(r2));
+            Tests.Assert(!root.idxLongProp.Remove(rFullNew));
         }
     }
 }

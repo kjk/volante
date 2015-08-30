@@ -582,9 +582,19 @@ public class TestsMain
                 counts = CountsDefault;
             Counts = counts;
         }
+        
+        // Allow TestR2 and R2
+        public bool IsNamed(string name)
+        {
+            if (String.Equals(Name, name, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (String.Equals(Name, "Test" + name, StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
+        }
     };
 
-    static TestInfo[] TestInfos = new TestInfo[]
+    static TestInfo[] AllTests = new TestInfo[]
     {
         // small count for TestFieldIndex and TestMultiFieldIndex because we only
         // want to test code paths unique to them. The underlying code is tested
@@ -653,15 +663,35 @@ public class TestsMain
         new TestInfo("TestGc", ConfigsGc, new int[2] { 5000, 50000 })
     };
 
-    static void ParseCmdLineArgs(string[] args)
+    static TestInfo[] ParseCmdLineArgs(string[] args)
     {
+        var testsToRun = new List<TestInfo>();
         foreach (var arg in args)
         {
             if (arg == "-fast")
                 CountsIdx = CountsIdxFast;
             else if (arg == "-slow")
                 CountsIdx = CountsIdxSlow;
+            else {
+                var found = false;
+                foreach (var t in AllTests)
+                {
+                    if (t.IsNamed(arg)) {
+                        testsToRun.Add(t);
+                        found = true;                        
+                    }
+                    if (found)
+                        break;
+                }
+                if (!found) {
+                    Console.WriteLine(String.Format("Unknown test '{0}'", arg));
+                    Environment.Exit(1);
+                }
+            }
         }
+        if (testsToRun.Count == 0)
+            return null;
+        return testsToRun.ToArray();
     }
 
     public static void RunTests(TestInfo testInfo)
@@ -679,29 +709,31 @@ public class TestsMain
             if (!useAltBtree)
                 continue;
 #endif
-        var config = configTmp.Clone();
-        if (configTmp.Count != 0)
-            config.Count = configTmp.Count;
-        else
-            config.Count = testInfo.Count;
-        config.TestName = testClassName;
-        config.Result = new TestResult(); // can be over-written by a test
-        DateTime start = DateTime.Now;
-        test.Run(config);
-        config.Result.ExecutionTime = DateTime.Now - start;
-        config.Result.Config = config; // so that we Print() nicely
-        config.Result.Ok = Tests.FinalizeTest();
-        config.Result.Print();
+            var config = configTmp.Clone();
+            if (configTmp.Count != 0)
+                config.Count = configTmp.Count;
+            else
+                config.Count = testInfo.Count;
+            config.TestName = testClassName;
+            config.Result = new TestResult(); // can be over-written by a test
+            DateTime start = DateTime.Now;
+            test.Run(config);
+            config.Result.ExecutionTime = DateTime.Now - start;
+            config.Result.Config = config; // so that we Print() nicely
+            config.Result.Ok = Tests.FinalizeTest();
+            config.Result.Print();
         }
     }
 
     public static void Main(string[] args)
     {
-        ParseCmdLineArgs(args);
+        var testsToRun = ParseCmdLineArgs(args);
 
         var tStart = DateTime.Now;
 
-        foreach (var t in TestInfos)
+        if (testsToRun == null)
+            testsToRun = AllTests;
+        foreach (var t in testsToRun)
         {
             RunTests(t);
         }
