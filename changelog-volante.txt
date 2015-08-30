@@ -1,0 +1,42 @@
+--- Release version 0.9 ??.??.????
+
+1. Renamed Perst to Volante
+2. Fixed the version that uses generics and ditched the non-generic version
+3. Added OMIT_XML and OMIT_REPLICATION defines for building smaller dll by excluding those features
+4. Wrote Unix/Mac makefile and test runner (using mono)
+5. Fixed AltBtree enumerators to detect tree modification during enumeration
+6. Started  on more comprehensive tests
+7. Converted polymorphic Storage.SetProperty() method into C# properties
+8. Removed Storage.SetGcThreshold() since it's redundant with the new
+   Storage.GcThreshold property
+9. Fixed Storage.FileNoFlush so that it works also before database is opened,
+   as per docs.
+10. Converted Storage.CacheKind property from a string to Storage.CacheType enum
+11. Fixed uint and ulong indexes in AltBtree
+12. Fixed int indexes in AltBtree
+13. Added support for DateTime for AltBtree index
+14. Renamed Storage => IDatabase, PatriciaKey => IPatriciaKey, GenericPArray => IGenericPArray, Blob => IBlob, PArray => IParray, Link => ILink, ClassLoader => IClassLoader, TimeSeries => ITimeSeries, TimeSeriesTick => ITimeSeriesTick, SortedCollection => ISortedCollection, SpatialIndex => ISpatialIndex, SpatialIndexR2 => ISpatialIndexR2, BitIndex => IBitIndex, MultiFieldIndex => IMultiFieldIndex, FieldIndex => IFieldIndex, GenericIndex => IGenericIndex, GenericLink => IGenericLink
+15. Changed uses of Hashtable to Dictionary<>
+16. Introduce enum IndexType and use it instead of bool unique param to IDatabase.CreateIndex() methods
+17. Remove bool IDatabase.SerializeTransientObjects property and act as it's always true
+18. Fixed a bug in BtreePage.PrefixSearch()
+19. Fixed a bug in AltBtree.PrefixSearch()
+20. Renamed DatabaseError => DatabaseException
+21. Removed IDatabase.FileReadOnly and IDatabase.FileNoFlush and pushed them to specific IFile implementation; made OsFile and Rc4File public
+22. Fixed a bug in PArrayImpl.Length if setting length to a value smaller than current length
+23. Fixed a bug in BlobImpl.Seek() when SeekOrigin.End is used
+24. Removed non-templated CreateSet(), CreateLink(), CreateArray() from public API since they're trivially done with CreateSet<IPersistent>() etc.
+25. Renamed IDatabase.CreateScalableSet() to just CreateSet().
+26. Removed Patricia tree code - of very limited use.
+27. Removed IDatabase.StringEncoding, always use utf8 for storing strings
+28. Changed IDatabase.SetListener() => IDatabase.Listener { get; set; }
+29. Renamed Btree* => OldBtree*, renamed Alt* by removing Alt prefix
+30. Fixed bug in IFieldIndex.Contains() where a unique index could claim an object is there when it wasn't
+31. Fixed bug in BtreeMultiFieldIndex.Contains() for non-unique index where it would throw an exception
+32. Fixed LinkImpl iterator to throw InvalidOperationException when reached end of sequence
+33. Fixed ThickIndex DictionaryIterator to throw InvalidOperationException when accessing Key when reached end of sequence
+34. Fixed TimeSeriesImpl.Contains() to not throw and exception if object not found
+35. Fixed Reset() on TimeSeriesImpl enumerator
+36. Fixed a bug in TTree enumerator's MoveNext() to properly handle finished iteration
+37. Fixed Projection.Contains() to not throw an exception if object is not present
+38. Removed ToArray(Type type) from many public interfaces

@@ -1,0 +1,64 @@
+<!doctype HTML> 
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link href="main.css" type="text/css" rel="stylesheet">
+	<link  href="js/prettify.css" type="text/css" rel="stylesheet"> 
+	<script src="js/prettify.js" type="text/javascript"></script>
+	<title>Volante as in-memory database</title>
+</head>
+<body onload="prettyPrint()">
+<div id=left-bar>
+	<div id=sections>
+		<center><div><a href="index.html">Volante</a></div></center>
+	</div>
+</div>
+
+<div class=content>
+	<p><a href=index.html>Volante</a> : <a href=devguideindex.html>Volante Developer's Guide</a> : <b>Volante as in-memory database</b></p>
+
+	<p>Volante can be used as an in-memory database. Because writing to disk is the slowest part of any database system, in-memory use offers dramatically higher performance.</p>
+
+	<p>There are two possibilities:
+	<ul>
+		<li>no persistence</li>
+		<li>persistence at the time of closing the database</li>
+	</ul>
+	</p>
+
+	<p>In both cases the whole data set has to fit in RAM.</p>
+
+	<h3>In-memory use without persistence</h3>
+
+	<p>In that mode the data is gone after application quits. Good for completely transient data.</p>
+
+	<p>This mode is enabled by passing instance of <code>NullFile()</code> class and <code>0</code> for <code>cacheSizeInBytes</code> to <code>IDatabase.Open()</code>.</p>
+
+	<pre class="prettyprint lang-cs">NullFile dbFile = new NullFile();
+db.Open(dbFile, 0);</pre>
+
+	<h3>In-memory use with persistence</h3>
+
+	<p>In this mode all the operations are done in memory but the database is persisted to disk when database is closed. This is faster than standard mode because there's less total disk I/O.</p>
+
+	<p>The downside is that if the application crashes and the database is not closed, all the data will be lost.</p>
+	<p>Also, closing the database takes a long time since all the accumulatd changs need to be written out to disk.</p>
+
+	<p>This mode is enabled by passing <code>0</code> for <code>cacheSizeInBytes</code> to <code>IDatabase.Open()</code>.</p>
+	<pre class="prettyprint lang-cs">db.Open("mydb.dbs", 0);</pre>
+
+	<h3>Other effects of infinite cache size</h3>
+
+	<p>Using <code>0</code> for <code>cacheSizeInBytes</code> to create an infinite cache also means that strong object cache will be used (instead of default weak object cache). All fetched objects will be pinned in memory and objects will be unpacked only once (which improves performance).</p>
+	
+	<p>The amount of main memory used will be greater than database size because all objects will be present in memory in packed form (inside database pages) and in unpacked form.</p>
+
+	<center><a href=garbage_collection.html>← garbage collection</a> &nbsp;&bull;&nbsp; <a href=schema_evolution.html>schema evolution →</a></center>
+
+	<hr style="margin-top:28px">
+	<center style="font-size:10pt;color:gray">Volante is maintained by <a href="http://blog.kowalczyk.info">Krzysztof Kowalczyk</a></center>
+</div>
+
+<span id=adsense></span>
+</body>
+</html>

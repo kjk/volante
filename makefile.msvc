@@ -1,0 +1,94 @@
+# nmake -f makefile.msvc
+# Arguments:
+# CFG=[dbg|rel] (default: dbg)
+# OMIT_XML=[yes|no] - default: no
+# OMIT_REPLICATION=[yes|no] - default: no
+
+CSC=csc
+CSC_FLAGS=/debug+
+
+!if "$(CFG)"==""
+CFG=dbg
+!endif
+
+O=bin\$(CFG)
+
+!if "$(CFG)"=="rel"
+CSC_FLAGS=$(CSC_FLAGS) /optimize+
+!endif
+
+!if "$(OMIT_XML)"=="yes"
+CSC_FLAGS=$(CSC_FLAGS) /d:OMIT_XML
+O=$(O)-noxml
+!endif
+
+!if "$(OMIT_REPLICATION)"=="yes"
+CSC_FLAGS=$(CSC_FLAGS) /d:OMIT_REPLICATION
+O=$(O)-norepl
+!endif
+
+!if "$(OMIT_ALL)"=="yes"
+CSC_FLAGS=$(CSC_FLAGS) /d:OMIT_REPLICATION /d:OMIT_XML
+O=$(O)-noall
+!endif
+
+EXAMPLES=$(O)\Guess.exe $(O)\IpCountry.exe $(O)\PropGuess.exe $(O)\TestLink.exe \
+	$(O)\TestSOD.exe $(O)\TestSSD.exe $(O)\TransparentGuess.exe
+
+TESTS=$(O)\TestReplic.exe $(O)\Tests.exe
+
+TS = tests\Tests
+TESTS_SRC = $(TS)\TestsMain.cs $(TS)\TestIndex.cs $(TS)\TestIndex2.cs \
+	$(TS)\TestEnumerator.cs $(TS)\TestCompoundIndex.cs $(TS)\TestBackup.cs \
+	$(TS)\TestBit.cs $(TS)\TestBlob.cs $(TS)\TestConcur.cs \
+	$(TS)\TestGC.cs $(TS)\TestList.cs $(TS)\TestR2.cs $(TS)\TestRaw.cs \
+	$(TS)\TestRtree.cs $(TS)\TestTimeSeries.cs $(TS)\TestTtree.cs \
+	$(TS)\TestXml.cs $(TS)\Tests.cs
+
+LIBRARY=$(O)\Volante.dll
+
+all: tests examples
+
+library: $(LIBRARY)
+
+$(LIBRARY): src/*.cs src/impl/*.cs
+	$(CSC) $(CSC_FLAGS) /target:library /out:$(LIBRARY) src\*.cs src\impl\*.cs
+
+examples: $(O) $(LIBRARY) $(EXAMPLES)
+
+tests: $(O) $(LIBRARY) $(TESTS)
+
+clean: force
+	rmdir /s /q $(O)
+
+$(O): force
+	@if not exist $(O) mkdir $(O)
+
+$(O)\Tests.exe: $(TESTS_SRC)
+	$(CSC) $(CSC_FLAGS) /r:$(LIBRARY) /out:$@ $**
+
+$(O)\TestReplic.exe: tests\TestReplic\TestReplic.cs
+	$(CSC) $(CSC_FLAGS) /r:$(LIBRARY) /out:$@ $**
+
+$(O)\Guess.exe: examples\Guess\Guess.cs
+	$(CSC) $(CSC_FLAGS) /r:$(LIBRARY) /out:$@ $**
+
+$(O)\IpCountry.exe: examples\IpCountry\IpCountry.cs
+	$(CSC) $(CSC_FLAGS) /r:$(LIBRARY) /out:$@ $**
+
+$(O)\PropGuess.exe: examples\PropGuess\Guess.cs
+	$(CSC) $(CSC_FLAGS) /r:$(LIBRARY) /out:$@ $**
+
+$(O)\TestLink.exe: examples\TestLink\TestLink.cs
+	$(CSC) $(CSC_FLAGS) /r:$(LIBRARY) /out:$@ $**
+
+$(O)\TestSOD.exe: examples\TestSOD\TestSOD.cs
+	$(CSC) $(CSC_FLAGS) /r:$(LIBRARY) /out:$@ $**
+
+$(O)\TestSSD.exe: examples\TestSSD\TestSSD.cs
+	$(CSC) $(CSC_FLAGS) /r:$(LIBRARY) /out:$@ $**
+
+$(O)\TransparentGuess.exe: examples\TransparentGuess\Guess.cs
+	$(CSC) $(CSC_FLAGS) /r:$(LIBRARY) /out:$@ $**
+
+force: ;

@@ -1,0 +1,6 @@
+Current maintainer:
+  Krzysztof Kowalczyk (http://blog.kowalczyk.info)
+
+Original author of Perst code base:
+  Konstantin Knizhnik (http://www.garret.ru)
+
