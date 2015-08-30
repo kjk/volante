@@ -1191,6 +1191,60 @@ namespace Volante.Impl
             }
         }
 
+        // TODO: no idea if that's correct. One can cast enum to int unless its base
+        // type is different than int (ulong etc.). Should I use different representations
+        // based on what Enum.GetUnderlyingType says?
+        class BtreePageOfEnum : BtreePage
+        {
+            internal override Array Data
+            {
+                get
+                {
+                    return data.ToRawArray();
+                }
+            }
+            internal ILink data;
+
+            const int MAX_ITEMS = BTREE_PAGE_SIZE / (4 + 4);
+
+            internal override Key getKey(int i)
+            {
+                return new Key(data.GetRaw(i));
+            }
+
+            internal override object getKeyValue(int i)
+            {
+                return data[i];
+            }
+
+            internal override BtreePage clonePage()
+            {
+                return new BtreePageOfEnum(Database);
+            }
+
+            internal override int compare(Key key, int i)
+            {
+                return (int)key.ival - data[i].Oid;
+            }
+
+            internal override void insert(BtreeKey key, int i)
+            {
+                items[i] = key.node;
+                data[i] = (IPersistent)key.key.oval;
+            }
+
+            internal BtreePageOfEnum(IDatabase s)
+                : base(s, MAX_ITEMS)
+            {
+                data = s.CreateLink<IPersistent>(MAX_ITEMS);
+                data.Length = MAX_ITEMS;
+            }
+
+            internal BtreePageOfEnum()
+            {
+            }
+        }
+
         class BtreePageOfObject : BtreePage
         {
             internal override Array Data
@@ -1641,6 +1695,10 @@ namespace Volante.Impl
 
                 case ClassDescriptor.FieldType.tpGuid:
                     newRoot = new BtreePageOfGuid(s);
+                    break;
+
+               case ClassDescriptor.FieldType.tpEnum:
+                    newRoot = new BtreePageOfEnum(s);
                     break;
 
                 default:

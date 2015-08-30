@@ -30,10 +30,12 @@ namespace Volante
             public IFieldIndex<decimal, RecordFullWithProperty> idxDecimal;
             public IFieldIndex<Guid, RecordFullWithProperty> idxGuid;
             public IFieldIndex<string, RecordFullWithProperty> idxString;
-            // TODO: Btree.allocateRootPage() doesn't support tpEnum even though 
+
+            // TODO: Btree.allocateRootPage() doesn't support tpEnum even though
             // FieldIndex does support it as a key and OldBtree supports it.
-            //public IFieldIndex<RecordFullWithPropertyEnum, RecordFullWithProperty> idxEnum;
-            // TODO: OldBtree doesn't support oid as an index
+            public IFieldIndex<RecordFullEnum, RecordFullWithProperty> idxEnum;
+
+            // TODO: OldBtree doesn't support object as an index
             //public IFieldIndex<object, RecordFullWithProperty> idxObject;
             public IFieldIndex<int, RecordFullWithProperty> idxOid;
 
@@ -75,7 +77,7 @@ namespace Volante
             root.idxDecimal = db.CreateFieldIndex<Decimal, RecordFullWithProperty>("DecimalVal", IndexType.NonUnique);
             root.idxGuid = db.CreateFieldIndex<Guid, RecordFullWithProperty>("GuidVal", IndexType.NonUnique);
             root.idxString = db.CreateFieldIndex<String, RecordFullWithProperty>("StrVal", IndexType.NonUnique);
-            //root.idxEnum = db.CreateFieldIndex<RecordFullWithPropertyEnum, RecordFullWithProperty>("EnumVal", IndexType.NonUnique);
+            root.idxEnum = db.CreateFieldIndex<RecordFullEnum, RecordFullWithProperty>("EnumVal", IndexType.NonUnique);
             //root.idxObject = db.CreateFieldIndex<object, RecordFullWithProperty>("ObjectVal", IndexType.NonUnique);
             root.idxOid = db.CreateFieldIndex<int, RecordFullWithProperty>("Oid", IndexType.NonUnique);
 
@@ -110,7 +112,7 @@ namespace Volante
                 root.idxDecimal.Put(r);
                 root.idxGuid.Put(r);
                 root.idxString.Put(r);
-                //root.idxEnum.Put(r);
+                root.idxEnum.Put(r);
                 //root.idxObject.Put(r);
                 root.idxOid.Put(r);
 
@@ -134,7 +136,7 @@ namespace Volante
             // Contains for unique index
             Tests.Assert(root.idxLong.Contains(rfFirst));
             Tests.Assert(!root.idxLong.Contains(rFullNew));
-            
+
             Tests.Assert(root.idxLongAuto.Contains(raFirst));
             Tests.Assert(!root.idxLongAuto.Contains(rAutoNew));
 
