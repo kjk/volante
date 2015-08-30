@@ -23,9 +23,7 @@ namespace Volante
             public IFieldIndex<long, RecordFullWithProperty> idxLong;
             public IFieldIndex<long, RecordFullWithProperty> idxLongProp;
             public IFieldIndex<ulong, RecordFullWithProperty> idxULong;
-            // TODO: Btree.allocateRootPage() doesn't support tpChar even though 
-            // FieldIndex does support it as a key and OldBtree supports it.
-            //public IFieldIndex<char, RecordFullWithProperty> idxChar;
+            public IFieldIndex<char, RecordFullWithProperty> idxChar;
             public IFieldIndex<float, RecordFullWithProperty> idxFloat;
             public IFieldIndex<double, RecordFullWithProperty> idxDouble;
             public IFieldIndex<DateTime, RecordFullWithProperty> idxDate;
@@ -70,7 +68,7 @@ namespace Volante
             root.idxLong = db.CreateFieldIndex<long, RecordFullWithProperty>("Int64Val", IndexType.Unique);
             root.idxLongProp = db.CreateFieldIndex<long, RecordFullWithProperty>("Int64Prop", IndexType.Unique);
             root.idxULong = db.CreateFieldIndex<ulong, RecordFullWithProperty>("UInt64Val", IndexType.NonUnique);
-            //root.idxChar = db.CreateFieldIndex<char, RecordFullWithProperty>("CharVal", IndexType.NonUnique);
+            root.idxChar = db.CreateFieldIndex<char, RecordFullWithProperty>("CharVal", IndexType.NonUnique);
             root.idxFloat = db.CreateFieldIndex<float, RecordFullWithProperty>("FloatVal", IndexType.NonUnique);
             root.idxDouble = db.CreateFieldIndex<double, RecordFullWithProperty>("DoubleVal", IndexType.NonUnique);
             root.idxDate = db.CreateFieldIndex<DateTime, RecordFullWithProperty>("DateTimeVal", IndexType.NonUnique);
@@ -105,7 +103,7 @@ namespace Volante
                 root.idxLong.Put(r);
                 root.idxLongProp.Put(r);
                 root.idxULong.Put(r);
-                //root.idxChar.Put(r);
+                root.idxChar.Put(r);
                 root.idxFloat.Put(r);
                 root.idxDouble.Put(r);
                 root.idxDate.Put(r);

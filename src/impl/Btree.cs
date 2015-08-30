@@ -568,6 +568,57 @@ namespace Volante.Impl
             }
         }
 
+        class BtreePageOfChar : BtreePage
+        {
+            internal override Array Data
+            {
+                get
+                {
+                    return data;
+                }
+
+            }
+            internal char[] data;
+
+            const int MAX_ITEMS = BTREE_PAGE_SIZE / (4 + 2);
+
+            internal override Key getKey(int i)
+            {
+                return new Key(data[i]);
+            }
+
+            internal override object getKeyValue(int i)
+            {
+                return data[i];
+            }
+
+            internal override BtreePage clonePage()
+            {
+                return new BtreePageOfChar(Database);
+            }
+
+            internal override int compare(Key key, int i)
+            {
+                return (char)key.ival - data[i];
+            }
+
+            internal override void insert(BtreeKey key, int i)
+            {
+                items[i] = key.node;
+                data[i] = (char)key.key.ival;
+            }
+
+            internal BtreePageOfChar(IDatabase s)
+                : base(s, MAX_ITEMS)
+            {
+                data = new char[MAX_ITEMS];
+            }
+
+            internal BtreePageOfChar()
+            {
+            }
+        }
+
         class BtreePageOfShort : BtreePage
         {
             internal override Array Data
@@ -1525,6 +1576,10 @@ namespace Volante.Impl
 
                 case ClassDescriptor.FieldType.tpSByte:
                     newRoot = new BtreePageOfSByte(s);
+                    break;
+
+                case ClassDescriptor.FieldType.tpChar:
+                    newRoot = new BtreePageOfChar(s);
                     break;
 
                 case ClassDescriptor.FieldType.tpShort:
