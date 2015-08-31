@@ -11,14 +11,10 @@ namespace Volante
         /// </summary>
         public static IDatabase CreateDatabase()
         {
-#if CF
-            return new DatabaseImpl(System.Reflection.Assembly.GetCallingAssembly());
-#else
             return new DatabaseImpl();
-#endif
         }
 
-#if !CF && WITH_REPLICATION
+#if WITH_REPLICATION
         /// <summary>
         /// Create new instance of the master node of replicated database
         /// </summary>

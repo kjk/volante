@@ -3,17 +3,13 @@ namespace Volante
     using System;
     using System.Runtime.InteropServices;
     using System.Diagnostics;
-#if !CF
     using System.ComponentModel;
-#endif
 
     /// <summary>Base class for all persistent capable objects
     /// </summary>
     public class Persistent : IPersistent
     {
-#if !CF
         [Browsable(false)]
-#endif
         public virtual int Oid
         {
             get
@@ -22,9 +18,7 @@ namespace Volante
             }
         }
 
-#if !CF
         [Browsable(false)]
-#endif
         public virtual IDatabase Database
         {
             get

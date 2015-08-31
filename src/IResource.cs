@@ -46,7 +46,6 @@ namespace Volante
         /// </summary>
         void ExclusiveLock();
 
-#if !CF
         /// <summary>
         /// Lock persistent object in shared mode. Other threads will be able to set their
         /// shared locks on this objects, but not exclusive lock can be set until this lock is released.
@@ -107,7 +106,6 @@ namespace Volante
         /// </DL>
         /// </returns>
         bool ExclusiveLock(long timeout);
-#endif
 
         /// <summary>
         /// Remove granted lock. If lock was requested several times by one thread, then correspondent number

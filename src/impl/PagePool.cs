@@ -310,28 +310,12 @@ namespace Volante.Impl
             unfix(pg);
         }
 
-#if CF
-        class PageComparator : System.Collections.IComparer 
-        {
-            public int Compare(object o1, object o2) 
-            {
-                long delta = ((Page)o1).offs - ((Page)o2).offs;
-                return delta < 0 ? -1 : delta == 0 ? 0 : 1;
-            }
-        }
-        static PageComparator pageComparator = new PageComparator();
-#endif
-
         internal virtual void flush()
         {
             lock (this)
             {
                 flushing = true;
-#if CF
-                Array.Sort(dirtyPages, 0, nDirtyPages, pageComparator);
-#else
                 Array.Sort(dirtyPages, 0, nDirtyPages);
-#endif
             }
             for (int i = 0; i < nDirtyPages; i++)
             {

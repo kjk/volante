@@ -146,20 +146,6 @@ namespace Volante.Impl
         internal static Type[] defaultConstructorProfile = new Type[0];
         internal static object[] noArgs = new object[0];
 
-#if CF
-        static internal object parseEnum(Type type, String value) 
-        {
-            foreach (FieldInfo fi in type.GetFields()) 
-            {
-                if (fi.IsLiteral && fi.Name.Equals(value)) 
-                {
-                    return fi.GetValue(null);
-                }
-            }
-            throw new ArgumentException(value);
-        }
-#endif
-
         public bool equals(ClassDescriptor cd)
         {
             if (cd == null || allFields.Length != cd.allFields.Length)
@@ -188,9 +174,6 @@ namespace Volante.Impl
             }
         }
 
-#if CF
-        internal void generateSerializer() {}
-#else
         private static CodeGenerator serializerGenerator = CodeGenerator.Instance;
 
         internal void generateSerializer()
@@ -226,7 +209,6 @@ namespace Volante.Impl
         {
             return typeof(PersistentWrapper).IsAssignableFrom(cls) && f.Name.StartsWith("r_");
         }
-#endif
 
         MethodInfo GetConstructor(FieldInfo f, string name)
         {
@@ -271,9 +253,7 @@ namespace Volante.Impl
                 buildFieldList(db, superclass, list);
             }
             System.Reflection.FieldInfo[] flds = cls.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly);
-#if !CF
             bool isWrapper = typeof(PersistentWrapper).IsAssignableFrom(cls);
-#endif
             bool hasTransparentAttribute = cls.GetCustomAttributes(typeof(TransparentPersistenceAttribute), true).Length != 0;
 
             for (int i = 0; i < flds.Length; i++)
@@ -289,7 +269,6 @@ namespace Volante.Impl
                     FieldType type = getTypeCode(fieldType);
                     switch (type)
                     {
-#if !CF
                         case FieldType.tpInt:
                             if (isWrapper && isObjectProperty(cls, f))
                             {
@@ -297,7 +276,6 @@ namespace Volante.Impl
                                 type = FieldType.tpOid;
                             }
                             break;
-#endif
                         case FieldType.tpArrayOfOid:
                             fd.constructor = GetConstructor(f, "ConstructArray");
                             hasReferences = true;
@@ -521,11 +499,7 @@ namespace Volante.Impl
                     }
                 }
 
-#if CF
-                foreach (Assembly ass in DatabaseImpl.assemblies) 
-#else
                 foreach (Assembly ass in AppDomain.CurrentDomain.GetAssemblies())
-#endif
                 {
                     foreach (Module mod in ass.GetModules())
                     {
@@ -544,7 +518,6 @@ namespace Volante.Impl
                         }
                     }
                 }
-#if !CF
                 if (cls == null && name.EndsWith("Wrapper"))
                 {
                     Type originalType = lookup(db, name.Substring(0, name.Length - 7));
@@ -553,7 +526,6 @@ namespace Volante.Impl
                         cls = ((DatabaseImpl)db).getWrapper(originalType);
                     }
                 }
-#endif
                 if (cls == null)
                 {
                     throw new DatabaseException(DatabaseException.ErrorCode.CLASS_NOT_FOUND, name);

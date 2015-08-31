@@ -13,18 +13,6 @@ namespace Volante.Impl
     {
         public const int DEFAULT_PAGE_POOL_SIZE = 4 * 1024 * 1024;
 
-#if CF
-        static DatabaseImpl() 
-        {
-            assemblies = new System.Collections.ArrayList();
-        }
-        public DatabaseImpl(Assembly callingAssembly) 
-        {
-            assemblies.Add(callingAssembly);
-            assemblies.Add(Assembly.GetExecutingAssembly());
-        }
-#endif
-
         public IPersistent Root
         {
             get
@@ -957,11 +945,7 @@ namespace Volante.Impl
                 nBlockedTransactions = 0;
                 nCommittedTransactions = 0;
                 scheduledCommitTime = Int64.MaxValue;
-#if CF
-                transactionMonitor = new CNetMonitor();
-#else
                 transactionMonitor = new object();
-#endif
                 transactionLock = new PersistentResource();
 
                 modified = false;
@@ -1157,7 +1141,6 @@ namespace Volante.Impl
             {
                 descList = null;
             }
-#if !CF
             if (enableCodeGeneration)
             {
                 codeGenerationThread = new Thread(new ThreadStart(generateSerializers));
@@ -1165,7 +1148,6 @@ namespace Volante.Impl
                 codeGenerationThread.IsBackground = true;
                 codeGenerationThread.Start();
             }
-#endif
         }
 
         internal void generateSerializers()
@@ -1476,17 +1458,6 @@ namespace Volante.Impl
             }
         }
 
-#if CF
-        class PositionComparer : System.Collections.IComparer 
-        {
-            public int Compare(object o1, object o2) 
-            {
-                long i1 = (long)o1;
-                long i2 = (long)o2;
-                return i1 < i2 ? -1 : i1 == i2 ? 0 : 1;
-            }
-        }
-#else
         public IPersistent CreateClass(Type type)
         {
             lock (this)
@@ -1518,7 +1489,7 @@ namespace Volante.Impl
             }
             return wrapper;
         }
-#endif
+
         public int MakePersistent(IPersistent obj)
         {
             if (obj == null)
@@ -1618,11 +1589,7 @@ namespace Volante.Impl
 
                 long pageOffs = (long)(nIndexPages * 2 + 1) * Page.pageSize;
                 long recOffs = (long)(nPagedObjects + nIndexPages * 2 + 1) * Page.pageSize;
-#if CF
-                Array.Sort(index, oids, 0, nObjects, new PositionComparer());
-#else
                 Array.Sort(index, oids);
-#endif
                 byte[] newIndex = new byte[nIndexPages * dbHandlesPerPage * 8];
                 for (i = 0; i < nObjects; i++)
                 {
@@ -1861,20 +1828,12 @@ namespace Volante.Impl
             {
                 ensureOpened();
                 bool unique = (indexType == IndexType.Unique);
-#if CF
-                if (alternativeBtree) 
-                {
-                    throw new DatabaseError(DatabaseError.ErrorCode.UNSUPPORTED_INDEX_TYPE);
-                }
-                MultiFieldIndex<T> index = new BtreeMultiFieldIndex<T>(fieldNames, unique);
-#else
 #if WITH_OLD_BTREE
                 IMultiFieldIndex<T> index = alternativeBtree
                     ? (IMultiFieldIndex<T>)new BtreeMultiFieldIndex<T>(fieldNames, unique)
                     : (IMultiFieldIndex<T>)new OldBtreeMultiFieldIndex<T>(fieldNames, unique);
 #else
                 IMultiFieldIndex<T> index = (IMultiFieldIndex<T>)new BtreeMultiFieldIndex<T>(fieldNames, unique);
-#endif
 #endif
                 index.AssignOid(this, 0, false);
                 return index;
@@ -2122,7 +2081,7 @@ namespace Volante.Impl
             return nDeallocated;
         }
 
-#if !CF
+
         public void backgroundGcThread()
         {
             while (true)
@@ -2163,7 +2122,6 @@ namespace Volante.Impl
                 Monitor.Pulse(backgroundGcStartMonitor);
             }
         }
-#endif
 
         private int gc0()
         {
@@ -2175,7 +2133,6 @@ namespace Volante.Impl
                     return 0;
 
                 gcActive = true;
-#if !CF
                 if (backgroundGc)
                 {
                     if (gcThread == null)
@@ -2186,7 +2143,6 @@ namespace Volante.Impl
                     activateGc();
                     return 0;
                 }
-#endif
                 // System.out.println("Start GC, allocatedDelta=" + allocatedDelta + ", header[" + currIndex + "].size=" + header.root[currIndex].size + ", gcTreshold=" + gcThreshold);
 
                 mark();
@@ -2564,166 +2520,6 @@ namespace Volante.Impl
             EndThreadTransaction(Int32.MaxValue);
         }
 
-#if CF
-        public void RegisterAssembly(System.Reflection.Assembly assembly) 
-        {
-            assemblies.Add(assembly);
-        }
-
-        public void BeginThreadTransaction(TransactionMode mode)
-        {
-            if (mode == TransactionMode.Serializable) 
-            { 
-                useSerializableTransactions = true;
-                TransactionContext.nested += 1;;
-            } 
-            else 
-            { 
-                transactionMonitor.Enter(); 
-                try {
-                    if (scheduledCommitTime != Int64.MaxValue) 
-                    { 
-                        nBlockedTransactions += 1;
-                        while (DateTime.Now.Ticks >= scheduledCommitTime) 
-                        { 
-                            transactionMonitor.Wait();
-                        }
-                        nBlockedTransactions -= 1;
-                    }
-                    nNestedTransactions += 1;
-                } finally { 
-                    transactionMonitor.Exit(); 
-                }
-                if (mode == TransactionMode.Exclusive) 
-                { 
-                    transactionLock.ExclusiveLock();
-                } 
-                else 
-                { 
-                    transactionLock.SharedLock();
-                }
-            }
-        }
-        
-        public void EndThreadTransaction(int maxDelay)
-        {
-            ThreadTransactionContext ctx = TransactionContext;
-            if (ctx.nested != 0) 
-            { // serializable transaction
-                if (--ctx.nested == 0) 
-                { 
-                    int i = ctx.modified.Count;
-                    if (i != 0) 
-                    { 
-                        do 
-                        { 
-                            ((IPersistent)ctx.modified[--i]).Store();
-                        } while (i != 0);
-
-                        lock (backgroundGcMonitor) 
-                        { 
-                            lock (this) 
-                            { 
-                                commit0();
-                            }
-                        }
-                    }
-                    for (i = ctx.locked.Count; --i >= 0;) 
-                    { 
-                        ((IResource)ctx.locked[i]).Reset();
-                    }
-                    ctx.modified.Clear();
-                    ctx.locked.Clear();
-                } 
-            } 
-            else 
-            { // exclusive or cooperative transaction        
-                transactionMonitor.Enter(); 
-                try { 
-                    transactionLock.Unlock();
-                    if (nNestedTransactions != 0) 
-                    { // may be everything is already aborted
-                        if (--nNestedTransactions == 0) 
-                        { 
-                            nCommittedTransactions += 1;
-                            Commit();
-                            scheduledCommitTime = Int64.MaxValue;
-                            if (nBlockedTransactions != 0) 
-                            { 
-                                transactionMonitor.PulseAll();
-                            }
-                        } 
-                        else 
-                        {
-                            if (maxDelay != Int32.MaxValue) 
-                            { 
-                                long nextCommit = DateTime.Now.Ticks + maxDelay;
-                                if (nextCommit < scheduledCommitTime) 
-                                { 
-                                    scheduledCommitTime = nextCommit;
-                                }
-                                if (maxDelay == 0) 
-                                { 
-                                    int n = nCommittedTransactions;
-                                    nBlockedTransactions += 1;
-                                    do 
-                                    { 
-                                        transactionMonitor.Wait();
-                                    } while (nCommittedTransactions == n);
-                                    nBlockedTransactions -= 1;
-                                }				    
-                            }
-                        }
-                    }
-                } finally { 
-                    transactionMonitor.Exit();
-                }
-            }
-        }
-
-        public void RollbackThreadTransaction()
-        {
-            ThreadTransactionContext ctx = TransactionContext;
-            if (ctx.nested != 0) 
-            { // serializable transaction
-                ctx.nested = 0; 
-                int i = ctx.modified.Count;
-                if (i != 0) 
-                { 
-                    do 
-                    { 
-                        ((IPersistent)ctx.modified[--i]).Invalidate();
-                    } while (i != 0);
-                
-                    lock (this) 
-                    { 
-                        rollback0();
-                    }
-                }
-                for (i = ctx.locked.Count; --i >= 0;) 
-                { 
-                    ((IResource)ctx.locked[i]).Reset();
-                } 
-                ctx.modified.Clear();
-                ctx.locked.Clear();
-            } 
-            else 
-            { 
-                try { 
-                    transactionMonitor.Enter(); 
-                    transactionLock.Reset();
-                    nNestedTransactions = 0;
-                    if (nBlockedTransactions != 0) 
-                    { 
-                        transactionMonitor.PulseAll();
-                    }
-                    Rollback();
-                } finally { 
-                   transactionMonitor.Exit();
-                }
-            }
-        }
-#else
         public virtual void BeginThreadTransaction(TransactionMode mode)
         {
             if (mode == TransactionMode.Serializable)
@@ -2866,8 +2662,6 @@ namespace Volante.Impl
             }
         }
 
-#endif
-
         public virtual void Close()
         {
             lock (backgroundGcMonitor)
@@ -2883,7 +2677,7 @@ namespace Volante.Impl
                 }
                 opened = false;
             }
-#if !CF
+
             if (codeGenerationThread != null)
             {
                 codeGenerationThread.Join();
@@ -2895,7 +2689,7 @@ namespace Volante.Impl
                 activateGc();
                 gcThread.Join();
             }
-#endif
+
             if (isDirty())
             {
                 Page pg = pool.putPage(0);
@@ -4754,14 +4548,10 @@ namespace Volante.Impl
 
         internal bool enableCodeGeneration = true;
 
-#if CF
-        internal static ArrayList assemblies;
-        CNetMonitor transactionMonitor;
-#else
         internal Thread codeGenerationThread;
         object transactionMonitor;
         Dictionary<Type, Type> wrapperHash = new Dictionary<Type, Type>();
-#endif
+
         int nNestedTransactions;
         int nBlockedTransactions;
         int nCommittedTransactions;

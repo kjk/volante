@@ -9,7 +9,7 @@ namespace Volante
     {
         public FileListener Listener { get; set; }
 
-#if !MONO && !CF && !SILVERLIGHT
+#if !MONO && !SILVERLIGHT
 #if NET_4_0
         [System.Security.SecuritySafeCritical]
 #endif
@@ -39,7 +39,7 @@ namespace Volante
         public virtual void Sync()
         {
             file.Flush();
-#if !CF && !MONO && !SILVERLIGHT
+#if !MONO && !SILVERLIGHT
             if (!NoFlush)
             {
                 FlushFileBuffers(file.SafeFileHandle);
@@ -64,9 +64,7 @@ namespace Volante
 
         public virtual void Lock()
         {
-#if !CF
             file.Lock(0, long.MaxValue);
-#endif
         }
 
         public long Length

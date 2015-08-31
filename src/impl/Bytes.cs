@@ -98,11 +98,7 @@ namespace Volante.Impl
 
         public static double unpackF8(byte[] arr, int offs)
         {
-#if CF 
-            return BitConverter.ToDouble(BitConverter.GetBytes(unpack8(arr, offs)), 0);
-#else
             return BitConverter.Int64BitsToDouble(unpack8(arr, offs));
-#endif
         }
 
         public static decimal unpackDecimal(byte[] arr, int offs)
@@ -149,11 +145,7 @@ namespace Volante.Impl
 
         public static void packF8(byte[] arr, int offs, double val)
         {
-#if CF 
-            pack8(arr, offs, BitConverter.ToInt64(BitConverter.GetBytes(val), 0));
-#else
             pack8(arr, offs, BitConverter.DoubleToInt64Bits(val));
-#endif
         }
 
         public static void packDecimal(byte[] arr, int offs, decimal val)

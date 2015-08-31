@@ -52,9 +52,7 @@ namespace Volante
         static int nElements = 0;
 
         static IDatabase db;
-#if CF
-        static int nFinishedThreads;
-#endif
+
         public static void run()
         {
             L2List list = (L2List)db.Root;
@@ -78,15 +76,6 @@ namespace Volante
                 last.linkAfter(list.head);
                 list.Unlock();
             }
-#if CF
-            lock (typeof(TestConcur)) 
-            {
-                if (++nFinishedThreads == nThreads) 
-                {
-                    db.Close();
-                }
-            }
-#endif
         }
 
         public void Run(TestConfig config)
@@ -120,12 +109,10 @@ namespace Volante
                 threads[i] = new Thread(new ThreadStart(run));
                 threads[i].Start();
             }
-#if !CF
             for (int i = 0; i < nThreads; i++)
             {
                 threads[i].Join();
             }
-#endif
             db.Close();
             res.AccessTime = DateTime.Now - start;
         }

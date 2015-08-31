@@ -450,17 +450,6 @@ namespace Volante
         /// </summary>
         IClassLoader Loader { get; set; }
 
-#if CF
-        /// <summary>
-        /// Compact.NET framework doesn't allow to get list of assemblies loaded
-        /// in application domain. Without it I do not know how to locate
-        /// class from foreign assembly by name. 
-        /// Assembly which creates Database is automatically registered.
-        /// Other assemblies has to explicitely registered by programmer.
-        /// </summary>
-        /// <param name="assembly">registered assembly</param>
-        void RegisterAssembly(System.Reflection.Assembly assembly);
-#else
         /// <summary>
         /// Create persistent class wrapper. This wrapper will implement virtual properties
         /// defined in specified class or interface, performing transparent loading and storing of persistent object
@@ -470,7 +459,6 @@ namespace Volante
         /// in it
         /// </returns>
         IPersistent CreateClass(Type type);
-#endif
 
         /// <summary>
         /// Begin per-thread transaction. Three types of per-thread transactions are supported: 
