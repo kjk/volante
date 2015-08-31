@@ -82,7 +82,16 @@ namespace Volante.Impl
 
         private Key extractKey(IPersistent obj)
         {
-            Object val = mbr is FieldInfo ? ((FieldInfo)mbr).GetValue(obj) : ((PropertyInfo)mbr).GetValue(obj, null);
+            Object val;
+            FieldInfo fi = mbr as FieldInfo;
+            if (fi != null)
+                val = fi.GetValue(obj);
+            else
+            {
+                var pi = mbr as PropertyInfo;
+                val = pi.GetValue(obj, null);
+            }
+
             Key key = null;
             switch (type)
             {

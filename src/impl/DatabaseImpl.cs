@@ -1842,9 +1842,11 @@ namespace Volante.Impl
                 ensureOpened();
                 bool unique = (indexType == IndexType.Unique);
 #if WITH_OLD_BTREE
-                IFieldIndex<K, V> index = alternativeBtree
-                    ? (IFieldIndex<K, V>)new BtreeFieldIndex<K, V>(fieldName, unique)
-                    : (IFieldIndex<K, V>)new OldBtreeFieldIndex<K, V>(fieldName, unique);
+                IFieldIndex<K, V> index;
+                if (alternativeBtree)
+                    index = new BtreeFieldIndex<K, V>(fieldName, unique);
+                else
+                    index = new OldBtreeFieldIndex<K, V>(fieldName, unique);
 #else
                 IFieldIndex<K, V> index = (IFieldIndex<K, V>)new BtreeFieldIndex<K, V>(fieldName, unique);
 #endif

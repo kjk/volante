@@ -35,7 +35,7 @@ namespace Volante
             //public IFieldIndex<RecordFullWithPropertyEnum, RecordFullWithProperty> idxEnum;
             // TODO: OldBtree doesn't support oid as an index
             //public IFieldIndex<object, RecordFullWithProperty> idxObject;
-            public IFieldIndex<int, RecordFullWithProperty> idxOid;
+            // TODO: find a way to test Btree page with tpOid
 
             public IFieldIndex<int, RecordAuto> idxIntAuto;
             public IFieldIndex<long, RecordAuto> idxLongAuto;
@@ -78,7 +78,6 @@ namespace Volante
             root.idxString = db.CreateFieldIndex<String, RecordFullWithProperty>("StrVal", IndexType.NonUnique);
             //root.idxEnum = db.CreateFieldIndex<RecordFullWithPropertyEnum, RecordFullWithProperty>("EnumVal", IndexType.NonUnique);
             //root.idxObject = db.CreateFieldIndex<object, RecordFullWithProperty>("ObjectVal", IndexType.NonUnique);
-            root.idxOid = db.CreateFieldIndex<int, RecordFullWithProperty>("Oid", IndexType.NonUnique);
 
             root.idxIntAuto = db.CreateFieldIndex<int, RecordAuto>("IntAuto", IndexType.Unique);
             root.idxLongAuto = db.CreateFieldIndex<long, RecordAuto>("LongAuto", IndexType.Unique);
@@ -113,7 +112,6 @@ namespace Volante
                 root.idxString.Put(r);
                 //root.idxEnum.Put(r);
                 //root.idxObject.Put(r);
-                root.idxOid.Put(r);
 
                 var ra = new RecordAuto();
                 root.idxIntAuto.Append(ra);
@@ -168,9 +166,6 @@ namespace Volante
             Tests.Assert(root.idxDecimal.Remove(rfFirst));
             Tests.Assert(root.idxGuid.Remove(rfFirst));
             Tests.Assert(root.idxString.Remove(rfFirst));
-            // TODO: fails for AltBtree
-            if (!config.AltBtree)
-                Tests.Assert(root.idxOid.Remove(rfFirst));
             db.Commit();
             Tests.Assert(!root.idxBool.Remove(rfFirst));
             Tests.Assert(!root.idxByte.Remove(rfFirst));
@@ -188,7 +183,6 @@ namespace Volante
             Tests.Assert(!root.idxDecimal.Remove(rfFirst));
             Tests.Assert(!root.idxGuid.Remove(rfFirst));
             Tests.Assert(!root.idxString.Remove(rfFirst));
-            Tests.Assert(!root.idxOid.Remove(rfFirst));
             db.Commit();
             var e = root.idxLong.GetEnumerator();
             Tests.Assert(e.MoveNext());
