@@ -16,6 +16,7 @@ workspace "Volante"
     kind "SharedLib"
     language "C#"
     files { "src/*.cs", "src/impl/*.cs" }
+    links { "System" }
 
   project "Tests"
     kind "ConsoleApp"
