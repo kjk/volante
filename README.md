@@ -1,12 +1,10 @@
-What.
------
+## What
 
 Volante is a free, small, fast, object-oriented, NoSQL, embeddable database for .NET.
 
 See http://blog.kowalczyk.info/software/volante/ for more information.
 
-Origin.
--------
+## Origin
 
 Volante is a continuation of Perst database. Perst was licensed under liberal BSD license
 until version 2.49. In version 2.50 the license was changed to dual GPL/commercial license.
