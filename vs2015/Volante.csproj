@@ -20,7 +20,7 @@
     <OutputPath>bin\Any CPU\Debug\</OutputPath>
     <BaseIntermediateOutputPath>obj\Any CPU\Debug\Volante\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants>WITH_PATRICIA;WITH_REPLICATION;WITH_OLD_BTREE;WITH_XML</DefineConstants>
+    <DefineConstants>WITH_PATRICIA;WITH_REPLICATION;WITH_OLD_BTREE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -32,7 +32,7 @@
     <OutputPath>bin\Any CPU\Release\</OutputPath>
     <BaseIntermediateOutputPath>obj\Any CPU\Release\Volante\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants>WITH_PATRICIA;WITH_REPLICATION;WITH_OLD_BTREE;WITH_XML</DefineConstants>
+    <DefineConstants>WITH_PATRICIA;WITH_REPLICATION;WITH_OLD_BTREE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -175,9 +175,6 @@
     <Compile Include="..\src\TypeMemoryUsage.cs">
       <Link>src\TypeMemoryUsage.cs</Link>
     </Compile>
-    <Compile Include="..\src\XMLImportException.cs">
-      <Link>src\XMLImportException.cs</Link>
-    </Compile>
     <Compile Include="..\src\impl\AsyncReplicationMasterFile.cs">
       <Link>src\impl\AsyncReplicationMasterFile.cs</Link>
     </Compile>
@@ -318,12 +315,6 @@
     </Compile>
     <Compile Include="..\src\impl\WeakHashTable.cs">
       <Link>src\impl\WeakHashTable.cs</Link>
-    </Compile>
-    <Compile Include="..\src\impl\XMLExporter.cs">
-      <Link>src\impl\XMLExporter.cs</Link>
-    </Compile>
-    <Compile Include="..\src\impl\XMLImporter.cs">
-      <Link>src\impl\XMLImporter.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

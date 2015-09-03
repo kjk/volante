@@ -314,20 +314,6 @@ namespace Volante
         /// <returns>number of collected (deallocated) objects</returns>
         int Gc();
 
-#if WITH_XML
-        /// <summary> Export database in XML format 
-        /// </summary>
-        /// <param name="writer">writer for generated XML document
-        /// </param>
-        void ExportXML(System.IO.StreamWriter writer);
-
-        /// <summary> Import data from XML file
-        /// </summary>
-        /// <param name="reader">XML document reader
-        /// </param>
-        void ImportXML(System.IO.StreamReader reader);
-#endif
-
         /// <summary> 
         /// Retrieve object by oid. This method should be used with care because
         /// if object is deallocated, its oid can be reused. In this case

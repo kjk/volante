@@ -20,7 +20,7 @@
     <OutputPath>bin\Any CPU\Debug\</OutputPath>
     <BaseIntermediateOutputPath>obj\Any CPU\Debug\PropGuess\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants>WITH_PATRICIA;WITH_REPLICATION;WITH_OLD_BTREE;WITH_XML</DefineConstants>
+    <DefineConstants>WITH_PATRICIA;WITH_REPLICATION;WITH_OLD_BTREE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -32,7 +32,7 @@
     <OutputPath>bin\Any CPU\Release\</OutputPath>
     <BaseIntermediateOutputPath>obj\Any CPU\Release\PropGuess\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants>WITH_PATRICIA;WITH_REPLICATION;WITH_OLD_BTREE;WITH_XML</DefineConstants>
+    <DefineConstants>WITH_PATRICIA;WITH_REPLICATION;WITH_OLD_BTREE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>

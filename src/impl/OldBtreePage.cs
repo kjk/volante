@@ -2082,58 +2082,6 @@ namespace Volante.Impl
             }
             return nPages;
         }
-
-#if WITH_XML
-        internal static void exportPage(DatabaseImpl db, XmlExporter exporter, int pageId, ClassDescriptor.FieldType type, int height)
-        {
-            Page pg = db.getPage(pageId);
-            try
-            {
-                int i, n = getnItems(pg);
-                if (--height != 0)
-                {
-                    if (type == ClassDescriptor.FieldType.tpString || type == ClassDescriptor.FieldType.tpArrayOfByte)
-                    {
-                        // page of strings
-                        for (i = 0; i <= n; i++)
-                        {
-                            exportPage(db, exporter, getKeyStrOid(pg, i), type, height);
-                        }
-                    }
-                    else
-                    {
-                        for (i = 0; i <= n; i++)
-                        {
-                            exportPage(db, exporter, getReference(pg, maxItems - i - 1), type, height);
-                        }
-                    }
-                }
-                else
-                {
-                    if (type == ClassDescriptor.FieldType.tpString || type == ClassDescriptor.FieldType.tpArrayOfByte)
-                    {
-                        // page of strings
-                        for (i = 0; i < n; i++)
-                        {
-                            exporter.exportAssoc(getKeyStrOid(pg, i), pg.data, OldBtreePage.firstKeyOffs + OldBtreePage.getKeyStrOffs(pg, i), OldBtreePage.getKeyStrSize(pg, i), type);
-                        }
-                    }
-                    else
-                    {
-                        // page of scalars
-                        for (i = 0; i < n; i++)
-                        {
-                            exporter.exportAssoc(getReference(pg, maxItems - 1 - i), pg.data, OldBtreePage.firstKeyOffs + i * ClassDescriptor.Sizeof[(int)type], ClassDescriptor.Sizeof[(int)type], type);
-                        }
-                    }
-                }
-            }
-            finally
-            {
-                db.pool.unfix(pg);
-            }
-        }
-#endif
     }
 }
 #endif

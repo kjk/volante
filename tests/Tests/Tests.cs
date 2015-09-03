@@ -622,9 +622,6 @@ public class TestsMain
         new TestInfo("TestReplication", ConfigsOnlyAlt, new int[2] { 10000, 500000 }),
 #endif
         new TestInfo("TestIndex", ConfigsIndex, Counts1),
-#if WITH_XML
-        new TestInfo("TestXml", ConfigsDefaultFile, new int[2] { 2000, 20000 }),
-#endif
         new TestInfo("TestIndexRangeSearch"),
         new TestInfo("TestCorrupt00", ConfigsOneFileAlt),
         new TestInfo("TestRemove00"),

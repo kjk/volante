@@ -1894,32 +1894,6 @@ namespace Volante.Impl
             return new BlobImpl(Page.pageSize - ObjectHeader.Sizeof - 16);
         }
 
-#if WITH_XML
-        public void ExportXML(System.IO.StreamWriter writer)
-        {
-            lock (this)
-            {
-                ensureOpened();
-                int rootOid = header.root[1 - currIndex].rootObject;
-                if (rootOid != 0)
-                {
-                    XmlExporter xmlExporter = new XmlExporter(this, writer);
-                    xmlExporter.exportDatabase(rootOid);
-                }
-            }
-        }
-
-        public void ImportXML(System.IO.StreamReader reader)
-        {
-            lock (this)
-            {
-                ensureOpened();
-                XmlImporter xmlImporter = new XmlImporter(this, reader);
-                xmlImporter.importDatabase();
-            }
-        }
-#endif
-
         internal long getGCPos(int oid)
         {
             Page pg = pool.getPage(header.root[currIndex].index

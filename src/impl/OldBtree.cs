@@ -20,9 +20,6 @@ namespace Volante.Impl
     interface OldBtree : IPersistent
     {
         int markTree();
-#if WITH_XML
-        void export(XmlExporter exporter);
-#endif
         int insert(Key key, IPersistent obj, bool overwrite);
         ClassDescriptor.FieldType FieldType { get; }
         ClassDescriptor.FieldType[] FieldTypes { get; }
@@ -411,14 +408,6 @@ namespace Volante.Impl
                 OldBtreePage.purge((DatabaseImpl)Database, root, type, height);
             base.Deallocate();
         }
-
-#if WITH_XML
-        public void export(XmlExporter exporter)
-        {
-            if (root != 0)
-                OldBtreePage.exportPage((DatabaseImpl)Database, exporter, root, type, height);
-        }
-#endif
 
         public int markTree()
         {
