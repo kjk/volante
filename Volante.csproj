@@ -153,6 +153,7 @@
     <Compile Include="src\impl\BtreeMultiFieldIndex.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\impl\OldBtreeKey.cs" />
     <Compile Include="src\impl\PersistentSet.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -169,9 +170,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\impl\OldBtreeFieldIndex.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\impl\OltBtreeKey.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\impl\OldBtreeMultiFieldIndex.cs">

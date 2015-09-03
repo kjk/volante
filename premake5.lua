@@ -2,7 +2,7 @@ workspace "Volante"
   configurations { "Debug", "Release" }
   platforms { "Any CPU" }
   flags { "Symbols" }
-
+  defines { "WITH_PATRICIA", "WITH_REPLICATION", "WITH_OLD_BTREE", "WITH_XML"}
   filter "action:vs*"
     location "vs2015"
   filter "action:monodevelop"

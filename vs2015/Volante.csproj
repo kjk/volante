@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7E0E96EA-EAED-1486-F305-A05C5F647BE7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Volante</RootNamespace>
+    <AssemblyName>Volante</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Any CPU\Debug\</OutputPath>
+    <BaseIntermediateOutputPath>obj\Any CPU\Debug\Volante\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+    <DefineConstants>WITH_PATRICIA;WITH_REPLICATION;WITH_OLD_BTREE;WITH_XML</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Any CPU\Release\</OutputPath>
+    <BaseIntermediateOutputPath>obj\Any CPU\Release\Volante\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+    <DefineConstants>WITH_PATRICIA;WITH_REPLICATION;WITH_OLD_BTREE;WITH_XML</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\src\AssemblyInfo.cs">
+      <Link>src\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\src\DatabaseException.cs">
+      <Link>src\DatabaseException.cs</Link>
+    </Compile>
+    <Compile Include="..\src\DatabaseFactory.cs">
+      <Link>src\DatabaseFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\src\DatabaseListener.cs">
+      <Link>src\DatabaseListener.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IBitIndex.cs">
+      <Link>src\IBitIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IBlob.cs">
+      <Link>src\IBlob.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IClassLoader.cs">
+      <Link>src\IClassLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IDatabase.cs">
+      <Link>src\IDatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IFieldIndex.cs">
+      <Link>src\IFieldIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IFile.cs">
+      <Link>src\IFile.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IGenericIndex.cs">
+      <Link>src\IGenericIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IIndex.cs">
+      <Link>src\IIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ILink.cs">
+      <Link>src\ILink.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IPArray.cs">
+      <Link>src\IPArray.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IPatriciaTrie.cs">
+      <Link>src\IPatriciaTrie.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IPersistent.cs">
+      <Link>src\IPersistent.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IReplicationMasterDatabase.cs">
+      <Link>src\IReplicationMasterDatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IReplicationSlaveDatabase.cs">
+      <Link>src\IReplicationSlaveDatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\src\IResource.cs">
+      <Link>src\IResource.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ISet.cs">
+      <Link>src\ISet.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ISortedCollection.cs">
+      <Link>src\ISortedCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ISpatialIndex.cs">
+      <Link>src\ISpatialIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ISpatialIndexR2.cs">
+      <Link>src\ISpatialIndexR2.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ITimeSeries.cs">
+      <Link>src\ITimeSeries.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Key.cs">
+      <Link>src\Key.cs</Link>
+    </Compile>
+    <Compile Include="..\src\L2List.cs">
+      <Link>src\L2List.cs</Link>
+    </Compile>
+    <Compile Include="..\src\L2ListElem.cs">
+      <Link>src\L2ListElem.cs</Link>
+    </Compile>
+    <Compile Include="..\src\MarshalByRefPersistent.cs">
+      <Link>src\MarshalByRefPersistent.cs</Link>
+    </Compile>
+    <Compile Include="..\src\NullFile.cs">
+      <Link>src\NullFile.cs</Link>
+    </Compile>
+    <Compile Include="..\src\OsFile.cs">
+      <Link>src\OsFile.cs</Link>
+    </Compile>
+    <Compile Include="..\src\PatriciaTrieKey.cs">
+      <Link>src\PatriciaTrieKey.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Persistent.cs">
+      <Link>src\Persistent.cs</Link>
+    </Compile>
+    <Compile Include="..\src\PersistentCollection.cs">
+      <Link>src\PersistentCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\src\PersistentComparator.cs">
+      <Link>src\PersistentComparator.cs</Link>
+    </Compile>
+    <Compile Include="..\src\PersistentContext.cs">
+      <Link>src\PersistentContext.cs</Link>
+    </Compile>
+    <Compile Include="..\src\PersistentResource.cs">
+      <Link>src\PersistentResource.cs</Link>
+    </Compile>
+    <Compile Include="..\src\PersistentString.cs">
+      <Link>src\PersistentString.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Projection.cs">
+      <Link>src\Projection.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Rc4File.cs">
+      <Link>src\Rc4File.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Rectangle.cs">
+      <Link>src\Rectangle.cs</Link>
+    </Compile>
+    <Compile Include="..\src\RectangleR2.cs">
+      <Link>src\RectangleR2.cs</Link>
+    </Compile>
+    <Compile Include="..\src\Relation.cs">
+      <Link>src\Relation.cs</Link>
+    </Compile>
+    <Compile Include="..\src\StreamFile.cs">
+      <Link>src\StreamFile.cs</Link>
+    </Compile>
+    <Compile Include="..\src\TransparentPersistenceAttribute.cs">
+      <Link>src\TransparentPersistenceAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\src\TypeMemoryUsage.cs">
+      <Link>src\TypeMemoryUsage.cs</Link>
+    </Compile>
+    <Compile Include="..\src\XMLImportException.cs">
+      <Link>src\XMLImportException.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\AsyncReplicationMasterFile.cs">
+      <Link>src\impl\AsyncReplicationMasterFile.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\BlobImpl.cs">
+      <Link>src\impl\BlobImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\Btree.cs">
+      <Link>src\impl\Btree.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\BtreeFieldIndex.cs">
+      <Link>src\impl\BtreeFieldIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\BtreeMultiFieldIndex.cs">
+      <Link>src\impl\BtreeMultiFieldIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\ByteBuffer.cs">
+      <Link>src\impl\ByteBuffer.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\Bytes.cs">
+      <Link>src\impl\Bytes.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\ClassDescriptor.cs">
+      <Link>src\impl\ClassDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\CodeGenerator.cs">
+      <Link>src\impl\CodeGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\DatabaseImpl.cs">
+      <Link>src\impl\DatabaseImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\DefaultPersistentComparator.cs">
+      <Link>src\impl\DefaultPersistentComparator.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\GeneratedSerializer.cs">
+      <Link>src\impl\GeneratedSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\LRU.cs">
+      <Link>src\impl\LRU.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\LinkImpl.cs">
+      <Link>src\impl\LinkImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\LruObjectCache.cs">
+      <Link>src\impl\LruObjectCache.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\ObjectHeader.cs">
+      <Link>src\impl\ObjectHeader.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\OidHashTable.cs">
+      <Link>src\impl\OidHashTable.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\OldBitIndexImpl.cs">
+      <Link>src\impl\OldBitIndexImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\OldBtree.cs">
+      <Link>src\impl\OldBtree.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\OldBtreeFieldIndex.cs">
+      <Link>src\impl\OldBtreeFieldIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\OldBtreeKey.cs">
+      <Link>src\impl\OldBtreeKey.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\OldBtreeMultiFieldIndex.cs">
+      <Link>src\impl\OldBtreeMultiFieldIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\OldBtreePage.cs">
+      <Link>src\impl\OldBtreePage.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\OldPersistentSet.cs">
+      <Link>src\impl\OldPersistentSet.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\PArrayImpl.cs">
+      <Link>src\impl\PArrayImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\PTrie.cs">
+      <Link>src\impl\PTrie.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\Page.cs">
+      <Link>src\impl\Page.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\PagePool.cs">
+      <Link>src\impl\PagePool.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\PersistentSet.cs">
+      <Link>src\impl\PersistentSet.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\PersistentStub.cs">
+      <Link>src\impl\PersistentStub.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\PersistentWrapper.cs">
+      <Link>src\impl\PersistentWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\RelationImpl.cs">
+      <Link>src\impl\RelationImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\ReplicationMasterFile.cs">
+      <Link>src\impl\ReplicationMasterFile.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\ReplicationMasterStorageImpl.cs">
+      <Link>src\impl\ReplicationMasterStorageImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\ReplicationSlaveStorageImpl.cs">
+      <Link>src\impl\ReplicationSlaveStorageImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\Rtree.cs">
+      <Link>src\impl\Rtree.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\RtreePage.cs">
+      <Link>src\impl\RtreePage.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\RtreeR2.cs">
+      <Link>src\impl\RtreeR2.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\RtreeR2Page.cs">
+      <Link>src\impl\RtreeR2Page.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\ScalableSet.cs">
+      <Link>src\impl\ScalableSet.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\StrongHashTable.cs">
+      <Link>src\impl\StrongHashTable.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\ThickIndex.cs">
+      <Link>src\impl\ThickIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\TimeSeriesImpl.cs">
+      <Link>src\impl\TimeSeriesImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\Ttree.cs">
+      <Link>src\impl\Ttree.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\TtreePage.cs">
+      <Link>src\impl\TtreePage.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\VolanteSink.cs">
+      <Link>src\impl\VolanteSink.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\WeakHashTable.cs">
+      <Link>src\impl\WeakHashTable.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\XMLExporter.cs">
+      <Link>src\impl\XMLExporter.cs</Link>
+    </Compile>
+    <Compile Include="..\src\impl\XMLImporter.cs">
+      <Link>src\impl\XMLImporter.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -3,5 +3,4 @@ obj/
 *.dbs
 .vs/
 doc/Volante.xml
-vs2015/
 monodevelop/

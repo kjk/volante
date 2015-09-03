@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5865280E-C479-50BF-8DFB-F31EF9CE4CF0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tests</RootNamespace>
+    <AssemblyName>Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Any CPU\Debug\</OutputPath>
+    <BaseIntermediateOutputPath>obj\Any CPU\Debug\Tests\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+    <DefineConstants>WITH_PATRICIA;WITH_REPLICATION;WITH_OLD_BTREE;WITH_XML</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Any CPU\Release\</OutputPath>
+    <BaseIntermediateOutputPath>obj\Any CPU\Release\Tests\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+    <DefineConstants>WITH_PATRICIA;WITH_REPLICATION;WITH_OLD_BTREE;WITH_XML</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\tests\Tests\TestBackup.cs">
+      <Link>tests\Tests\TestBackup.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestBit.cs">
+      <Link>tests\Tests\TestBit.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestBlob.cs">
+      <Link>tests\Tests\TestBlob.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestConcur.cs">
+      <Link>tests\Tests\TestConcur.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestEnumerator.cs">
+      <Link>tests\Tests\TestEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestFieldIndex.cs">
+      <Link>tests\Tests\TestFieldIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestGC.cs">
+      <Link>tests\Tests\TestGC.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndex.cs">
+      <Link>tests\Tests\TestIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndex2.cs">
+      <Link>tests\Tests\TestIndex2.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndex3.cs">
+      <Link>tests\Tests\TestIndex3.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndex4.cs">
+      <Link>tests\Tests\TestIndex4.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexBoolean.cs">
+      <Link>tests\Tests\TestIndexBoolean.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexByte.cs">
+      <Link>tests\Tests\TestIndexByte.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexDateTime.cs">
+      <Link>tests\Tests\TestIndexDateTime.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexDecimal.cs">
+      <Link>tests\Tests\TestIndexDecimal.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexDouble.cs">
+      <Link>tests\Tests\TestIndexDouble.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexFloat.cs">
+      <Link>tests\Tests\TestIndexFloat.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexGuid.cs">
+      <Link>tests\Tests\TestIndexGuid.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexInt.cs">
+      <Link>tests\Tests\TestIndexInt.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexLong.cs">
+      <Link>tests\Tests\TestIndexLong.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexObject.cs">
+      <Link>tests\Tests\TestIndexObject.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexSByte.cs">
+      <Link>tests\Tests\TestIndexSByte.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexShort.cs">
+      <Link>tests\Tests\TestIndexShort.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexUInt.cs">
+      <Link>tests\Tests\TestIndexUInt.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexULong.cs">
+      <Link>tests\Tests\TestIndexULong.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestIndexUShort.cs">
+      <Link>tests\Tests\TestIndexUShort.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestLinkPArray.cs">
+      <Link>tests\Tests\TestLinkPArray.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestList.cs">
+      <Link>tests\Tests\TestList.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestMisc.cs">
+      <Link>tests\Tests\TestMisc.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestMultiFieldIndex.cs">
+      <Link>tests\Tests\TestMultiFieldIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestPatriciaTrie.cs">
+      <Link>tests\Tests\TestPatriciaTrie.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestProjection.cs">
+      <Link>tests\Tests\TestProjection.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestR2.cs">
+      <Link>tests\Tests\TestR2.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestRaw.cs">
+      <Link>tests\Tests\TestRaw.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestReplication.cs">
+      <Link>tests\Tests\TestReplication.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestRtree.cs">
+      <Link>tests\Tests\TestRtree.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestSet.cs">
+      <Link>tests\Tests\TestSet.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestThickIndex.cs">
+      <Link>tests\Tests\TestThickIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestTimeSeries.cs">
+      <Link>tests\Tests\TestTimeSeries.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestTtree.cs">
+      <Link>tests\Tests\TestTtree.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\TestXml.cs">
+      <Link>tests\Tests\TestXml.cs</Link>
+    </Compile>
+    <Compile Include="..\tests\Tests\Tests.cs">
+      <Link>tests\Tests\Tests.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Volante.csproj">
+      <Project>{7E0E96EA-EAED-1486-F305-A05C5F647BE7}</Project>
+      <Name>Volante</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
