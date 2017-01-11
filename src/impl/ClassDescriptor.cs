@@ -508,6 +508,13 @@ namespace Volante.Impl
                         {
                             if (cls != null)
                             {
+                                if (cls == t)
+                                {
+                                    // Fix for ambuguous reference to System.String
+                                    // Since that class is "contained" in both mscorlib.dll and System.Runtime.dll,
+                                    // but they point towards the same type.
+                                    continue;
+                                }
                                 throw new DatabaseException(DatabaseException.ErrorCode.AMBIGUITY_CLASS, name);
                             }
                             else
