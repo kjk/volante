@@ -347,7 +347,7 @@ namespace Volante.Impl
 
             internal void clear()
             {
-                oref.Target = null;
+                if (oref != null) oref.Target = null;
                 oref = null;
                 dirty = 0;
                 next = null;
